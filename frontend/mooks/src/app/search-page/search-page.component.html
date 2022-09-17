@@ -17,10 +17,15 @@
     <button mat-raised-button
             color="primary"
             class="search-button"
+            [disabled]="isLoadingResults"
             (click)="search(query)">
       Search
     </button>
   </mat-card-content>
+
+  <div *ngIf="isLoadingResults && !movieResult">
+    Loading...
+  </div>
 
   <div *ngIf="movieResult">
     <h1>Results</h1>

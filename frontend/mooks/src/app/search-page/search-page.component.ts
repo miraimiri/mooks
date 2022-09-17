@@ -1,7 +1,7 @@
 import {ChangeDetectorRef, Component, OnDestroy} from '@angular/core';
 import {SearchService} from "../utility/search.service";
 import {Movie} from "../model/movie.model";
-import {ReplaySubject, takeUntil} from "rxjs";
+import {finalize, ReplaySubject, takeUntil} from "rxjs";
 
 @Component({
   selector: 'app-search-page',
@@ -11,6 +11,7 @@ import {ReplaySubject, takeUntil} from "rxjs";
 export class SearchPageComponent implements OnDestroy {
   query: string | undefined;
   movieResult: Movie | undefined;
+  isLoadingResults = false;
   private readonly destroy$ = new ReplaySubject<boolean>();
 
   constructor(private readonly searchService: SearchService,
@@ -24,8 +25,12 @@ export class SearchPageComponent implements OnDestroy {
 
   search(query: string | undefined) {
     if (query) {
+      this.isLoadingResults = true;
       this.searchService.getMovieByTitle(query)
-        .pipe(takeUntil(this.destroy$))
+        .pipe(
+          takeUntil(this.destroy$),
+          finalize(() => this.isLoadingResults = false)
+        )
         .subscribe(data => {
           this.movieResult = data;
           console.log(this.movieResult)
