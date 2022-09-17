@@ -1,11 +1,18 @@
 package main.java;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.json.GsonBuilderUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
+import main.java.MovieResult;
+import main.java.MovieResultMovie;
+import main.java.Movie;
+
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 @RestController
 public class mooksController {
@@ -23,13 +30,16 @@ public class mooksController {
     }
 
     @GetMapping("/movie/title/{title}")
-    public String getMovieByTitle(@PathVariable String title) {
+    public Movie getMovieByTitle(@PathVariable String title) {
+        Movie movie = new Movie();
         String uri = String.format("https://imdb-api.com/en/API/SearchTitle/k_0w8gobka/%s", title);
         RestTemplate restTemplate = new RestTemplate();
-        String result = restTemplate.getForObject(uri, String.class);
-        return result;
+        MovieResult resultString = restTemplate.getForObject(uri, MovieResult.class);
+        System.out.println(resultString);
+        movie.setTitle(resultString.results.get(0).getTitle());
+        movie.setImageUrl(resultString.results.get(0).getImage());
+        return movie;
     }
-
 
     @GetMapping("/movie/actor/{name}")
     public String getMovieByActor(@PathVariable String name) {
@@ -38,7 +48,6 @@ public class mooksController {
         String result = restTemplate.getForObject(uri, String.class);
         return result;
     }
-
 
     @GetMapping("/movie/keyword/{keyword}")
     public String getMovieByKeyword(@PathVariable String keyword) {
@@ -63,7 +72,6 @@ public class mooksController {
         String result = restTemplate.getForObject(uri, String.class);
         return result;
     }
-
 
     @GetMapping("/book/author/{author}")
     public String getBookByAuthor(@PathVariable String author) {
