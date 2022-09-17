@@ -34,19 +34,23 @@ public class mooksController {
         Movie movie = new Movie();
         String uri = String.format("https://imdb-api.com/en/API/SearchTitle/k_0w8gobka/%s", title);
         RestTemplate restTemplate = new RestTemplate();
-        MovieResult resultString = restTemplate.getForObject(uri, MovieResult.class);
-        System.out.println(resultString);
-        movie.setTitle(resultString.results.get(0).getTitle());
-        movie.setImageUrl(resultString.results.get(0).getImage());
+        MovieResult movieResult = restTemplate.getForObject(uri, MovieResult.class);
+        movie.setTitle(movieResult.results.get(0).getTitle());
+        movie.setImageUrl(movieResult.results.get(0).getImage());
+        movie.setYear(movieResult.results.get(0).getDescription());
         return movie;
     }
 
     @GetMapping("/movie/actor/{name}")
-    public String getMovieByActor(@PathVariable String name) {
+    public Movie getMovieByActor(@PathVariable String name) {
+        Movie movie = new Movie();
         String uri = String.format("https://imdb-api.com/en/API/SearchName/k_0w8gobka/%s", name);
         RestTemplate restTemplate = new RestTemplate();
-        String result = restTemplate.getForObject(uri, String.class);
-        return result;
+        MovieResult movieResult = restTemplate.getForObject(uri, MovieResult.class);
+        movie.setTitle(movieResult.results.get(0).getTitle());
+        movie.setImageUrl(movieResult.results.get(0).getImage());
+        movie.setYear(movieResult.results.get(0).getDescription());
+        return movie;
     }
 
     @GetMapping("/movie/keyword/{keyword}")

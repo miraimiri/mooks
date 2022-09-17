@@ -7,7 +7,7 @@ public class Movie {
     }
 
     private String imageUrl;
-    private Integer year;
+    private String year;
 
     public String getTitle() {
         return title;
@@ -25,11 +25,11 @@ public class Movie {
         this.imageUrl = imageUrl;
     }
 
-    public Integer getYear() {
+    public String getYear() {
         return year;
     }
 
-    public void setYear(Integer year) {
+    public void setYear(String year) {
         this.year = year;
     }
 }
