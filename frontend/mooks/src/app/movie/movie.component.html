@@ -1,0 +1,9 @@
+<mat-card *ngIf="movie">
+  <mat-card-header>
+    <mat-card-title>{{ movie.title }}</mat-card-title>
+    <mat-card-subtitle>{{ movie.year }}</mat-card-subtitle>
+  </mat-card-header>
+
+  <img alt="Movie poster" mat-card-image [src]="movie.imageUrl">
+
+</mat-card>
