@@ -22,11 +22,22 @@ public class mooksController {
         return result;
     }
 
-    @GetMapping("/movie/{title}")
+    @GetMapping("/movie/title/{title}")
     public String getMovieByTitle(@PathVariable String title) {
         String uri = String.format("https://imdb-api.com/en/API/SearchTitle/k_0w8gobka/%s", title);
         RestTemplate restTemplate = new RestTemplate();
         String result = restTemplate.getForObject(uri, String.class);
         return result;
     }
+
+
+    @GetMapping("/movie/actor/{name}")
+    public String getMovieByActor(@PathVariable String name) {
+        String uri = String.format("https://imdb-api.com/en/API/SearchName/k_0w8gobka/%s", name);
+        RestTemplate restTemplate = new RestTemplate();
+        String result = restTemplate.getForObject(uri, String.class);
+        return result;
+    }
+
+
 }
