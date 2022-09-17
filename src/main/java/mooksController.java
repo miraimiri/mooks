@@ -55,4 +55,15 @@ public class mooksController {
         String result = restTemplate.getForObject(uri, String.class);
         return result;
     }
+
+    @GetMapping("/book/title/{title}")
+    public String getBookByTitle(@PathVariable String title) {
+        String uri = String.format("https://www.googleapis.com/books/v1/volumes?q=%s&key=AIzaSyA3tiLLRdj5eELisHHxRdFR_p2NBAUPPS0", title);
+        RestTemplate restTemplate = new RestTemplate();
+        String result = restTemplate.getForObject(uri, String.class);
+        return result;
+    }
+
+
+
 }
