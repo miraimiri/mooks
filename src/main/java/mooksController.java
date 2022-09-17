@@ -40,4 +40,12 @@ public class mooksController {
     }
 
 
+    @GetMapping("/movie/genre/{genre}")
+    public String getMovieByGenre(@PathVariable String genre) {
+        String uri = String.format("https://imdb-api.com/en/API/SearchKeyword/k_0w8gobka/%s", genre);
+        RestTemplate restTemplate = new RestTemplate();
+        String result = restTemplate.getForObject(uri, String.class);
+        return result;
+    }
+
 }
